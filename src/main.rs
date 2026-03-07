@@ -1,5 +1,6 @@
 mod utils;
-// use crate::blockchain::Blockchain;
+mod models;
+
 use crate::utils::Keypair;
 fn main() {
     let keypair = Keypair::generate();
