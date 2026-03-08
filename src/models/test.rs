@@ -15,7 +15,7 @@ fn test_wallet_new() {
 fn test_transaction_new() {
     let wallet = Wallet::new();
     let wallet2 = Wallet::new();
-    let mut transaction = Transaction::new(&wallet, &wallet2, 100, 1);
+    let transaction = Transaction::new(&wallet, &wallet2, 100, 1);
     assert_eq!(transaction.sender, wallet.address,"Transaction sender should be the wallet address");
     assert_eq!(transaction.recipient, wallet2.address,"Transaction recipient should be the wallet2 address");
     assert_eq!(transaction.amount, 100,"Transaction amount should be 100");
