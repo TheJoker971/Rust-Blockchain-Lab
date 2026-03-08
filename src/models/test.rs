@@ -1,6 +1,4 @@
-use crate::models::Wallet;
-use crate::models::{Transaction, TransactionStatus};
-use crate::models::Block;
+use crate::models::{Wallet,Block,Transaction, TransactionStatus, Blockchain};
 
 #[test]
 fn test_wallet_new() {
@@ -50,4 +48,11 @@ fn test_block_new() {
     assert!(block.hash.is_empty(),"Block hash should be empty");
     assert_eq!(block.transaction_count, 0,"Block transaction count should be 0");
     assert!(!block.is_full(),"Block should not be full");
+}
+
+#[test]
+fn test_blockchain_new() {
+    let blockchain = Blockchain::new();
+    assert!(blockchain.blocks.is_empty(),"Blockchain blocks should be empty");
+    assert!(blockchain.wallets.is_empty(),"Blockchain wallets should be empty");
 }
