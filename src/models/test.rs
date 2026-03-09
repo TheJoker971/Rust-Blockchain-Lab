@@ -40,7 +40,7 @@ fn switch_transaction_status(transaction: &mut Transaction, status: TransactionS
 
 #[test]
 fn test_block_new() {
-    let block = Block::new(0, 0, "0".to_string());
+    let block = Block::new(0,  "0".to_string());
     assert_eq!(block.index, 0,"Block index should be 0");
     assert_eq!(block.timestamp, 0,"Block timestamp should be 0");
     assert_eq!(block.transactions.len(), 20,"Block transactions should not be empty");
