@@ -52,6 +52,26 @@ fn test_block_new() {
 }
 
 #[test]
+fn test_block_genesis_block() {
+    let block = Block::genesis_block();
+    assert_eq!(block.index, 0,"Block index should be 0");
+    assert!(block.timestamp <= Utc::now().timestamp(),"Block timestamp should be 0");
+    assert_eq!(block.transactions.len(), 20,"Block transactions should not be empty");
+    assert_eq!(block.previous_hash, format!("0x{}", "0".repeat(64)),"Block previous hash should be '0x000000...000000'");
+    assert!(block.hash.is_empty(),"Block hash should be empty");
+    assert_eq!(block.transaction_count, 0,"Block transaction count should be 0");
+    assert!(!block.is_full(),"Block should not be full");
+}
+
+#[test]
+fn test_block_add_transaction() {
+    let mut block = Block::new(0,  format!("0x{}", "0".repeat(64))).unwrap();
+    let transaction = Transaction::new(&Wallet::new(), &Wallet::new(), 100, 1);
+    block.add_transaction(&transaction).unwrap();
+    assert_eq!(block.transaction_count, 1,"Block transaction count should be 1");
+    assert_eq!(block.transactions[0], transaction,"Block transaction should be the same");
+}
+#[test]
 fn test_blockchain_new() {
     let blockchain = Blockchain::new();
     assert!(blockchain.blocks.is_empty(),"Blockchain blocks should be empty");
