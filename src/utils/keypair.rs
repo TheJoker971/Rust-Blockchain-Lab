@@ -15,12 +15,12 @@ impl Keypair {
         let (secret_key, public_key) = secp.generate_keypair(&mut rng);
         Self {
             public_key: format!("w{}", hex::encode(public_key.serialize())),
-            private_key: format!("pk{}", hex::encode(secret_key.secret_bytes())),
+            private_key: format!("p{}", hex::encode(secret_key.secret_bytes())),
         }
     }
     pub fn from_private_key(private_key: String) -> Self {
         let key_str = if private_key.starts_with("pk") {
-            private_key.strip_prefix("pk").unwrap().to_string()
+            private_key.strip_prefix("p").unwrap().to_string()
         } else {
             private_key.clone()
         };
@@ -33,10 +33,10 @@ impl Keypair {
         let public_key = PublicKey::from_secret_key(&secp, &secret_key);
         Self {
             public_key: format!("w{}", hex::encode(public_key.serialize())),
-            private_key: if private_key.starts_with("pk") {
+            private_key: if private_key.starts_with("p") {
                 private_key
             } else {
-                format!("pk{}", private_key)
+                format!("p{}", private_key)
             },
         }
     }

@@ -1,4 +1,5 @@
 use crate::models::Transaction;
+use crate::utils::validate_hash_block;
 use std::array;
 use chrono::Utc;
 
@@ -13,15 +14,21 @@ pub struct Block {
 }
 
 impl Block {
-    pub fn new(index: u64, previous_hash: String) -> Self {
-        Self { 
-            index, 
-            timestamp: Utc::now().timestamp(), 
-            transactions: array::from_fn(|_| Transaction::default()),
-            transaction_count: 0,
-            previous_hash, 
-            hash: String::new() 
+    pub fn new(index: u64, previous_hash: String) -> Result<Self, String> {
+        let valide_hash = validate_hash_block(previous_hash);
+        if valide_hash.is_err() {
+            return Err(valide_hash.unwrap_err());
         }
+        Ok(
+            Self { 
+                index, 
+                timestamp: Utc::now().timestamp(), 
+                transactions: array::from_fn(|_| Transaction::default()),
+                transaction_count: 0,
+                previous_hash: valide_hash.unwrap(), 
+                hash: String::new() 
+            }
+        )
     }
 
     pub fn genesis_block() -> Self {
@@ -39,4 +46,12 @@ impl Block {
         self.transaction_count >= 20
     }
 
+    pub fn add_transaction(&mut self, transaction: &Transaction) -> Result<(), String> {
+        if self.is_full() {
+            return Err("Block is full".to_string());
+        }
+        self.transactions[self.transaction_count] = transaction.clone();
+        self.transaction_count += 1;
+        Ok(())
+    }
 }
