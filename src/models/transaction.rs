@@ -6,13 +6,9 @@ pub enum TransactionStatus {
     Confirmed,
     Failed,
 }
-impl TransactionStatus {
-    pub fn eq(&self, other: &TransactionStatus) -> bool {
-        self == other
-    }
-}
 
-#[derive(Debug, Clone)]
+
+#[derive(Debug, Clone, PartialEq)]
 pub struct Transaction {
     pub sender: String,
     pub recipient: String,
