@@ -41,11 +41,11 @@ fn switch_transaction_status(transaction: &mut Transaction, status: TransactionS
 
 #[test]
 fn test_block_new() {
-    let block = Block::new(0,  format!("0x{}", "0".repeat(64))).unwrap();
+    let block = Block::new(0,  "0".to_string());
     assert_eq!(block.index, 0,"Block index should be 0");
     assert!(block.timestamp <= Utc::now().timestamp(),"Block timestamp should be 0");
     assert_eq!(block.transactions.len(), 20,"Block transactions should not be empty");
-    assert_eq!(block.previous_hash, format!("0x{}", "0".repeat(64)),"Block previous hash should be '0x000000...000000'");
+    assert_eq!(block.previous_hash, "0","Block previous hash should be '0x000000...000000'");
     assert!(block.hash.is_empty(),"Block hash should be empty");
     assert_eq!(block.transaction_count, 0,"Block transaction count should be 0");
     assert!(!block.is_full(),"Block should not be full");
